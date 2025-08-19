@@ -4,12 +4,6 @@ variable "aws_region" {
   default     = "us-east-2"
 }
 
-variable "instance_ami" {
-  description = "AMI ID for onboarding EC2 instances (only needed if using onboarding1/onboarding2)"
-  type        = string
-  default     = "ami-1234567890abcdef0"
-}
-
 variable "instance_type" {
   description = "Instance type for onboarding EC2 instances"
   type        = string
