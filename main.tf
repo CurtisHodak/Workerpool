@@ -31,42 +31,44 @@ resource "aws_subnet" "private" {
   }
 }
 
-# Public Subnet
-resource "aws_subnet" "public" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.2.0/24"
-  availability_zone       = "us-east-2b"
-  map_public_ip_on_launch = true
-  tags = {
-    Name = "public-subnet-${random_string.suffix.id}"
-  }
-}
+# # Public subnet things I am not launching in a public subnet for now
 
-# Internet Gateway
-resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
-  tags = {
-    Name = "internet-gateway-${random_string.suffix.id}"
-  }
-}
+# # Public Subnet
+# resource "aws_subnet" "public" {
+#   vpc_id                  = aws_vpc.main.id
+#   cidr_block              = "10.0.2.0/24"
+#   availability_zone       = "us-east-2b"
+#   map_public_ip_on_launch = true
+#   tags = {
+#     Name = "public-subnet-${random_string.suffix.id}"
+#   }
+# }
 
-# Route Table for public subnet
-resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main.id
-  }
-  tags = {
-    Name = "public-route-table-${random_string.suffix.id}"
-  }
-}
+# # Internet Gateway
+# resource "aws_internet_gateway" "main" {
+#   vpc_id = aws_vpc.main.id
+#   tags = {
+#     Name = "internet-gateway-${random_string.suffix.id}"
+#   }
+# }
 
-# Associate the public route table with the public subnet
-resource "aws_route_table_association" "public" {
-  subnet_id      = aws_subnet.public.id
-  route_table_id = aws_route_table.public.id
-}
+# # Route Table for public subnet
+# resource "aws_route_table" "public" {
+#   vpc_id = aws_vpc.main.id
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     gateway_id = aws_internet_gateway.main.id
+#   }
+#   tags = {
+#     Name = "public-route-table-${random_string.suffix.id}"
+#   }
+# }
+
+# # Associate the public route table with the public subnet
+# resource "aws_route_table_association" "public" {
+#   subnet_id      = aws_subnet.public.id
+#   route_table_id = aws_route_table.public.id
+# }
 
 # NAT Gateway
 resource "aws_eip" "nat" {
@@ -160,10 +162,10 @@ module "main_workerpool" {
 export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true
 EOF
 
-  ec2_instance_type = "t3.medium"
+  ec2_instance_type = "t3.micro"
   min_size          = 1
   max_size          = 5
   worker_pool_id    = var.worker_pool_id
   security_groups   = [aws_security_group.main.id]
-  vpc_subnets       = [aws_subnet.public.id, aws_subnet.private.id]
+  vpc_subnets       = [aws_subnet.private.id]
 }
