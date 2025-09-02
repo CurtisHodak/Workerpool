@@ -185,7 +185,7 @@ EOF
   ec2_instance_type = "t3.micro"
   min_size          = 1
   max_size          = 1
-  worker_pool_id    = var.worker_pool_id
+  worker_pool_id    = "${var.worker_pool_id}1234"
   security_groups   = [aws_security_group.main.id]
   vpc_subnets       = [aws_subnet.private.id]
 }
