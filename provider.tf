@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 6.5.0"   # allow v6
+      version = ">= 6.5.0" # allow v6
     }
     random = {
       source  = "hashicorp/random"
@@ -16,7 +16,12 @@ provider "aws" {
 
   default_tags {
     tags = {
-      CreatedBy = "Terraform-custom"
-    }
+    CreatedBy = "Terraform-custom" }
   }
+
+  ignore_tags {
+    keys         = ["Environment", "Owner"]
+    key_prefixes = ["kubernetes.io/", "eks.amazonaws.com/"]
+  }
+
 }
