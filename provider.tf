@@ -25,3 +25,12 @@ provider "aws" {
   # }
 
 }
+
+
+provider "azurerm" {
+  features {}
+
+  ignore_tags {
+    keys = ["environment", "owner"]
+  }
+}
