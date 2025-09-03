@@ -19,9 +19,9 @@ provider "aws" {
     CreatedBy = "Terraform-custom" }
   }
 
-  ignore_tags {
-    keys         = ["Environment", "Owner"]
-    key_prefixes = ["kubernetes.io/", "eks.amazonaws.com/"]
-  }
+  # ignore_tags {
+  #   keys         = ["Environment", "Owner"]
+  #   key_prefixes = ["kubernetes.io/", "eks.amazonaws.com/"]
+  # }
 
 }
